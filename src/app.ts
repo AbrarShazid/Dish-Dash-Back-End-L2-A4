@@ -4,7 +4,7 @@ import { auth } from "./lib/auth";
 import cors from "cors";
 import { userRouter } from "./modules/user/user.router";
 // import { menuRouter } from "./modules/menu/menu.router";
-// import { categoryRouter } from "./modules/category/category.router";
+import { categoryRouter } from "./modules/category/category.router";
 // import { orderRouter } from "./modules/order/order.router";
 // import { providerRoute } from "./modules/provider/provider.router";
 
@@ -29,7 +29,7 @@ app.use("/user", userRouter);
 
 //category related task
 
-// app.use("/category", categoryRouter);
+app.use("/category", categoryRouter);
 
 // menu related task
 
