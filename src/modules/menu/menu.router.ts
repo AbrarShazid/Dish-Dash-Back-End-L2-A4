@@ -12,6 +12,12 @@ router.post(
   menuController.addMenuItem,
 );
 
+router.patch(
+ "/update/:id",
+ authMiddleware(UserRole.PROVIDER),
+ menuController.updateMenuItem,
+);
+
 
 
 export const menuRouter: Router = router;

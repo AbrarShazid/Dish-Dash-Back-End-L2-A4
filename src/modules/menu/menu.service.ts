@@ -55,52 +55,52 @@ const addMenuItem = async (userId: string, menuItem: MenuItem) => {
   return result;
 };
 
-// const updateMenuItem = async (
-//   userId: string,
-//   mealId: string,
-//   payload: UpdateMenuItemPayload,
-// ) => {
-//   //  Find provider
-//   const provider = await prisma.providerProfile.findUnique({
-//     where: { userId },
-//   });
+const updateMenuItem = async (
+  userId: string,
+  mealId: string,
+  payload: UpdateMenuItemPayload,
+) => {
+  //  Find provider
+  const provider = await prisma.providerProfile.findUnique({
+    where: { userId },
+  });
 
-//   if (!provider) {
-//     throw new Error("Provider profile not found");
-//   }
+  if (!provider) {
+    throw new Error("Provider profile not found");
+  }
 
-//   //  Find meal and check ownership
-//   const meal = await prisma.meal.findUnique({
-//     where: { id: mealId },
-//   });
+  //  Find meal and check ownership
+  const meal = await prisma.meal.findUnique({
+    where: { id: mealId },
+  });
 
-//   if (!meal) {
-//     throw new Error("Meal not found");
-//   }
+  if (!meal) {
+    throw new Error("Meal not found");
+  }
 
-//   if (meal.providerId !== provider.id) {
-//     throw new Error("You are not allowed to update this meal");
-//   }
+  if (meal.providerId !== provider.id) {
+    throw new Error("You are not allowed to update this meal");
+  }
 
-//   //  If categoryId is changing → validate category
-//   if (payload.categoryId) {
-//     const category = await prisma.category.findUnique({
-//       where: { id: payload.categoryId },
-//     });
+  //  If categoryId is changing → validate category
+  if (payload.categoryId) {
+    const category = await prisma.category.findUnique({
+      where: { id: payload.categoryId },
+    });
 
-//     if (!category) {
-//       throw new Error("Invalid category ID");
-//     }
-//   }
+    if (!category) {
+      throw new Error("Invalid category ID");
+    }
+  }
 
-//   // Update
-//   const updatedMeal = await prisma.meal.update({
-//     where: { id: mealId },
-//     data: payload,
-//   });
+  // Update
+  const updatedMeal = await prisma.meal.update({
+    where: { id: mealId },
+    data: payload,
+  });
 
-//   return updatedMeal;
-// };
+  return updatedMeal;
+};
 
 // const getAllMenuItems = async (query: any) => {
 //   const { page, limit, skip, sortBy, sortOrder } =
@@ -227,7 +227,7 @@ const addMenuItem = async (userId: string, menuItem: MenuItem) => {
 
 export const menuService = {
   addMenuItem,
-  // updateMenuItem,
+  updateMenuItem,
   // getAllMenuItems,
   // getMenuItemById,
 };
