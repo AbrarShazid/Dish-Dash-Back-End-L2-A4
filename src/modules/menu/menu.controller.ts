@@ -69,6 +69,31 @@ const getAllMenuItems = async (req: Request, res: Response) => {
    });
  }
 };
+const getMenuItemById = async (req: Request, res: Response) => {
+ try {
+   if (!req.params.id) {
+     return res.status(400).json({
+       success: false,
+       message: "Meal ID is required",
+     });
+   }
+
+
+   const result = await menuService.getMenuItemById(req.params.id as string);
+
+
+   res.status(200).json({
+     success: true,
+     data: result,
+     message: "Menu item retrieved successfully",
+   });
+ } catch (error: any) {
+   res.status(400).json({
+     success: false,
+     message: error.message || "Failed to retrieve menu item",
+   });
+ }
+};
 
 
 
@@ -76,5 +101,5 @@ export const menuController = {
   addMenuItem,
   updateMenuItem,
   getAllMenuItems,
-  // getMenuItemById,
+  getMenuItemById,
 };

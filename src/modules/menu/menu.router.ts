@@ -5,6 +5,7 @@ import authMiddleware, { UserRole } from "../../middlewares/authMiddleware";
 const router = Router();
 
 router.get("/", menuController.getAllMenuItems);
+router.get("/:id", menuController.getMenuItemById);
 
 router.post(
   "/add-item",

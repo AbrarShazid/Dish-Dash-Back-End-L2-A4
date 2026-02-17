@@ -192,42 +192,42 @@ const getAllMenuItems = async (query: any) => {
   };
 };
 
-// const getMenuItemById = async (id: string) => {
-//   const meal = await prisma.meal.findUnique({
-//     where: { id },
-//     include: {
-//       category: {
-//         select: {
-//           name: true,
-//         },
-//       },
-//       provider: {
-//         select: {
-//           restaurantName: true,
-//         },
-//       },
-//     },
-//   });
+const getMenuItemById = async (id: string) => {
+  const meal = await prisma.meal.findUnique({
+    where: { id },
+    include: {
+      category: {
+        select: {
+          name: true,
+        },
+      },
+      provider: {
+        select: {
+          restaurantName: true,
+        },
+      },
+    },
+  });
 
-//   if (!meal) {
-//     throw new Error("Meal not found");
-//   }
+  if (!meal) {
+    throw new Error("Meal not found");
+  }
 
-//   return {
-//     id: meal.id,
-//     name: meal.name,
-//     description: meal.description,
-//     price: meal.price,
-//     imageUrl: meal.imageUrl,
-//     isAvailable: meal.isAvailable,
-//     categoryName: meal.category.name,
-//     providerName: meal.provider.restaurantName,
-//   };
-// };
+  return {
+    id: meal.id,
+    name: meal.name,
+    description: meal.description,
+    price: meal.price,
+    imageUrl: meal.imageUrl,
+    isAvailable: meal.isAvailable,
+    categoryName: meal.category.name,
+    providerName: meal.provider.restaurantName,
+  };
+};
 
 export const menuService = {
   addMenuItem,
   updateMenuItem,
   getAllMenuItems,
-  // getMenuItemById,
+  getMenuItemById,
 };
