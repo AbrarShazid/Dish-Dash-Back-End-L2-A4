@@ -93,7 +93,7 @@ const updateOrderStatus = async (
     currentStatus === OrderStatus.DELIVERED ||
     currentStatus === OrderStatus.CANCELLED
   ) {
-     throw new Error("Order already completed");
+    throw new Error("Order already completed");
   }
 
   // CUSTOMER RULES
@@ -157,17 +157,28 @@ const getMyOrders = async (customerId: string) => {
       provider: {
         select: { restaurantName: true },
       },
+      items: {
+        select: {
+          mealName: true,
+          mealId: true,
+          quantity: true,
+          price: true,
+        },
+      },
     },
   });
 
+  
   return result.map((singleOrder) => ({
     orderId: singleOrder.id,
+    
     status: singleOrder.status,
     totalAmount: singleOrder.totalAmount,
     deliveryAddress: singleOrder.deliveryAddress,
     createdAt: singleOrder.createdAt,
     updatedAt: singleOrder.updatedAt,
     restaurantName: singleOrder.provider.restaurantName,
+    items: singleOrder.items,
   }));
 };
 
