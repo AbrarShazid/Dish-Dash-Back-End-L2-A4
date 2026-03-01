@@ -18,9 +18,14 @@ router.post(
 );
 
 router.patch(
- "/update/:id",
+ "/update/:itemId",
  authMiddleware(UserRole.PROVIDER),
  menuController.updateMenuItem,
+);
+router.patch(
+ "/delete/:itemId",
+ authMiddleware(UserRole.PROVIDER),
+ menuController.deleteMenuItem,
 );
 
 

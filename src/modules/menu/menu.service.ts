@@ -92,11 +92,50 @@ const updateMenuItem = async (
       throw new Error("Invalid category ID");
     }
   }
+  console.log(payload);
 
   // Update
   const updatedMeal = await prisma.meal.update({
     where: { id: mealId },
     data: payload,
+  });
+
+  return updatedMeal;
+};
+
+const deleteMenuItem = async (userId: string, mealId: string) => {
+  //  Find provider
+  const provider = await prisma.providerProfile.findUnique({
+    where: { userId },
+  });
+
+  if (!provider) {
+    throw new Error("Provider profile not found");
+  }
+
+  //  Find meal and check ownership
+  const meal = await prisma.meal.findUnique({
+    where: { id: mealId },
+  });
+
+  if (!meal) {
+    throw new Error("Meal not found");
+  }
+
+  if (meal.providerId !== provider.id) {
+    throw new Error("You are not allowed to update this meal");
+  }
+  if (meal.isDeleted) {
+    throw new Error("Meal already deleted");
+  }
+
+  // delete
+  const updatedMeal = await prisma.meal.update({
+    where: { id: mealId },
+    data: {
+      isDeleted: true,
+      isAvailable: false,
+    },
   });
 
   return updatedMeal;
@@ -223,7 +262,7 @@ const getMenuByProvider = async (userId: string) => {
       meals: {
         where: {
           providerId: providerId,
-          isAvailable: true,
+          isDeleted:false
         },
 
         include: {
@@ -325,4 +364,5 @@ export const menuService = {
   getAllMenuItems,
   getMenuItemById,
   getMenuByProvider,
+  deleteMenuItem,
 };
