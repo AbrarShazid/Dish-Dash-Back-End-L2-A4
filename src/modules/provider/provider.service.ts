@@ -77,7 +77,7 @@ const getMenuByProvider = async (providerId: string) => {
     providerId: providerWithMenu.id,
     restaurantName: providerWithMenu.restaurantName,
     description: providerWithMenu.description,
-    image: providerWithMenu.imageUrl,
+    imageUrl: providerWithMenu.imageUrl,
     isOpen: providerWithMenu.isOpen,
     createdAt: providerWithMenu.createdAt,
     restaurantOwner: providerWithMenu.user.name,
@@ -87,7 +87,7 @@ const getMenuByProvider = async (providerId: string) => {
       restaurantName: providerWithMenu.restaurantName,
       description: meal.description,
       price: meal.price,
-      image: meal.imageUrl,
+      imageUrl: meal.imageUrl,
       categoryName: meal.category.name,
     })),
   };
