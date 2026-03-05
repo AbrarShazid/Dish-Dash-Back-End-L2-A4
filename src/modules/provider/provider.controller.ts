@@ -19,7 +19,6 @@ const getAllProviders = async (req: Request, res: Response) => {
 const getMenuByProvider = async (req: Request, res: Response) => {
   try {
     const { providerId } = req.params;
-
     const result = await providerService.getMenuByProvider(
       providerId as string,
     );
@@ -56,46 +55,40 @@ const becomeProvider = async (req: Request, res: Response) => {
   }
 };
 
-//update provider profile (restaurant name, description, image etc)
-
-const updateProviderProfile = async (req: Request, res: Response) => {
+export const updateProviderProfile = async (req: Request, res: Response) => {
   try {
-    const result = await providerService.updateProviderProfile(
-      req.user?.id as string,
-      req.body,
-      // req.file
-    );
+    const userId = req.user!.id;
+    const payload = req.body;
 
-    res.status(200).json({
+    const result = await providerService.updateProviderProfile(userId, payload);
+
+    res.json({
       success: true,
+      message: "Provider profile updated successfully",
       data: result,
     });
-  } catch (error) {
-    res.status(400).json({
+  } catch (error: any) {
+    res.status(500).json({
       success: false,
-      message: error || "Failed, something went wrong!",
+      message: error.message || "Failed to update provider profile",
     });
   }
 };
 
-const toggleOpen = async (req: Request, res: Response) => {
-  const { isOpen } = req.body;
-
+export const providerMyProfile = async (req: Request, res: Response) => {
   try {
-    const result = await providerService.toggleOpen(
-      req.user?.id as string,
-      isOpen as boolean,
-    );
+    const userId = req.user!.id;
+    const result = await providerService.providerMyProfile(userId);
 
-    res.status(200).json({
+    res.json({
       success: true,
-      message: `Restaurant is now ${isOpen ? "open" : "closed"}`,
+      message: "Provider profile fetch successfully",
       data: result,
     });
   } catch (error: any) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
-      message: error.message || "Failed, something went wrong!",
+      message: error.message || "Failed to get provider profile",
     });
   }
 };
@@ -105,5 +98,5 @@ export const providerController = {
   getMenuByProvider,
   becomeProvider,
   updateProviderProfile,
-  toggleOpen,
+  providerMyProfile,
 };

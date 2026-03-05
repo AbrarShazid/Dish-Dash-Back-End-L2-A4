@@ -5,6 +5,13 @@ interface BecomeProviderPayload {
   description?: string;
 }
 
+export interface UpdateProviderProfilePayload {
+  restaurantName?: string;
+  description?: string | null;
+  imageUrl?: string | null;
+  isOpen?: boolean;
+}
+
 const getAllProviders = async () => {
   const result = await prisma.providerProfile.findMany({
     where: { isOpen: true },
@@ -113,39 +120,40 @@ const becomeProvider = async (
   });
 };
 
-//update provider profile (restaurant name, description, image etc)
 const updateProviderProfile = async (
   userId: string,
-  payload: BecomeProviderPayload,
-  // file: Express.Multer.File
+  payload: UpdateProviderProfilePayload,
 ) => {
-  return await prisma.$transaction(async (tx) => {
-    // const uploadResult: any = await uploadToCloudinary(file.buffer);
+  const updateData: any = {};
 
-    // const imageUrl = uploadResult.secure_url;
+  if (payload.restaurantName !== undefined) {
+    updateData.restaurantName = payload.restaurantName;
+  }
+  if (payload.description !== undefined) {
+    updateData.description = payload.description;
+  }
+  if (payload.imageUrl !== undefined) {
+    updateData.imageUrl = payload.imageUrl;
+  }
+  if (payload.isOpen !== undefined) {
+    updateData.isOpen = payload.isOpen;
+  }
 
-    const providerProfile = await tx.providerProfile.update({
-      where: { userId },
-      data: {
-        restaurantName: payload.restaurantName,
-        description: payload.description ?? null,
-        // imageUrl,
-      },
-    });
-
-    return {
-      succes: true,
-      providerProfile,
-    };
+  const providerProfile = await prisma.providerProfile.update({
+    where: { userId },
+    data: updateData,
   });
+
+  return providerProfile;
 };
 
-const toggleOpen = async (userId: string, isOpen: boolean) => {
-  const provider = await prisma.providerProfile.update({
-    where: { userId },
-    data: { isOpen },
+const providerMyProfile = async (userId: string) => {
+  const provider = await prisma.providerProfile.findFirst({
+    where: { userId: userId },
   });
-
+  if (!provider) {
+    throw new Error("Provider not found");
+  }
   return provider;
 };
 
@@ -154,5 +162,5 @@ export const providerService = {
   getMenuByProvider,
   becomeProvider,
   updateProviderProfile,
-  toggleOpen,
+  providerMyProfile,
 };

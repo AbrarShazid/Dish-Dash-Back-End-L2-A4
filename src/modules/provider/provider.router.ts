@@ -6,6 +6,12 @@ const router = Router();
 
 router.get("/", providerController.getAllProviders);
 
+router.get(
+  "/my-profile",
+  authMiddleware(UserRole.PROVIDER),
+  providerController.providerMyProfile,
+);
+
 router.get("/:providerId", providerController.getMenuByProvider);
 
 router.patch(
@@ -13,17 +19,10 @@ router.patch(
   authMiddleware(UserRole.CUSTOMER),
   providerController.becomeProvider,
 );
-
 router.patch(
-  "/update-provider-profile",
+  "/provider-profile",
   authMiddleware(UserRole.PROVIDER),
   providerController.updateProviderProfile,
-);
-
-router.patch(
-  "/toggle-open",
-  authMiddleware(UserRole.PROVIDER),
-  providerController.toggleOpen,
 );
 
 export const providerRoute: Router = router;

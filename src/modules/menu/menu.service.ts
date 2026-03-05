@@ -92,7 +92,6 @@ const updateMenuItem = async (
       throw new Error("Invalid category ID");
     }
   }
-  console.log(payload);
 
   // Update
   const updatedMeal = await prisma.meal.update({

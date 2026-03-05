@@ -6,8 +6,11 @@ const router = Router();
 
 router.get("/", menuController.getAllMenuItems);
 
-router.get("/provider",authMiddleware(UserRole.PROVIDER), menuController.getMenuByProvider);
-
+router.get(
+  "/provider",
+  authMiddleware(UserRole.PROVIDER),
+  menuController.getMenuByProvider,
+);
 
 router.get("/:id", menuController.getMenuItemById);
 
@@ -18,16 +21,14 @@ router.post(
 );
 
 router.patch(
- "/update/:itemId",
- authMiddleware(UserRole.PROVIDER),
- menuController.updateMenuItem,
+  "/update/:itemId",
+  authMiddleware(UserRole.PROVIDER),
+  menuController.updateMenuItem,
 );
 router.patch(
- "/delete/:itemId",
- authMiddleware(UserRole.PROVIDER),
- menuController.deleteMenuItem,
+  "/delete/:itemId",
+  authMiddleware(UserRole.PROVIDER),
+  menuController.deleteMenuItem,
 );
-
-
 
 export const menuRouter: Router = router;
