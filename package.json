@@ -2,12 +2,13 @@
   "name": "dish-dash-a4",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
- "scripts": {
-    "dev": "tsx watch src/server.ts",
-    "build": "prisma generate && tsc",
-    "start": "node dist/src/server.js",
-    "seedAdmin": "tsx src/scripts/seedAdmin.ts"
+  "main": "dist/server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx tsx watch src/server.ts",
+    "seed:admin": "npx tsx src/scripts/seedAdmin.ts",
+    "build": "prisma generate && tsup src/index.ts --format esm --platform node --target node20 --outDir api --external pg-native",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
