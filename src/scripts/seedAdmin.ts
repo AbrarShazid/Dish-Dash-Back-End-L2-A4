@@ -1,6 +1,10 @@
 import { prisma } from "../lib/prisma";
 import { UserRole } from "../middlewares/authMiddleware";
 
+
+const APP_URL=process.env.APP_URL
+const BACKEND_URL=process.env.BACKEND_URL
+
 async function seedAdmin() {
   try {
     const adminData = {
@@ -23,12 +27,13 @@ async function seedAdmin() {
     }
 
     const signUpAdmin = await fetch(
-      `http://localhost:5000/api/auth/sign-up/email`,
+      `${BACKEND_URL}/api/auth/sign-up/email`,
       {
         method: "POST",
         headers: {
           "content-type": "application/json",
-          origin: "http://localhost:3000",
+          // origin: "http://localhost:3000",
+          origin: `${APP_URL}`,
         },
         body: JSON.stringify(adminData),
       },
